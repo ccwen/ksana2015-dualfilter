@@ -23,6 +23,9 @@ var DualFilter=React.createClass({
     ,hits:PT.array
     ,onFilter:PT.func.isRequired
     ,onItemClick:PT.func.isRequired
+    ,inputstyle:PT.object
+    ,inputclass:PT.oneOfType([PT.string, PT.func])
+
   }
   ,renderItem:function(i,idx){
     //var hit=(this.props.hits[i]||[]).length||"";
@@ -43,10 +46,11 @@ var DualFilter=React.createClass({
     this.preparesearch();
   }
 	,render:function() {
+    var Input=this.props.inputclass||"input";
 		return E("div",null,
-      E("input",{value:this.state.tofind1,onChange:this.onChange1})
+      E(Input,{placeholder:"regular expression",style:this.props.inputstyle,value:this.state.tofind1,onChange:this.onChange1})
       ,E("br")
-      ,E("input",{value:this.state.tofind2,onChange:this.onChange2})
+      ,E(Input,{placeholder:"full text search",style:this.props.inputstyle,value:this.state.tofind2,onChange:this.onChange2})
       ,E("br")
       ,E(ReactList,{itemRenderer:this.renderItem,length:this.props.items.length})
     )
