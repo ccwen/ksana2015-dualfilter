@@ -16,11 +16,12 @@ var DualFilter=React.createClass({
     }
   }
   ,getDefaultProps:function(){
-    return {items:[],hits:[]};
+    return {items:[],hits:[],vpos:[]};
   }
   ,propTypes:{
     items:PT.array.isRequired
     ,hits:PT.array
+    ,vpos:PT.array
     ,onFilter:PT.func.isRequired
     ,onItemClick:PT.func.isRequired
     ,inputstyle:PT.object
@@ -28,8 +29,12 @@ var DualFilter=React.createClass({
 
   }
   ,renderItem:function(i,idx){
-    //var hit=(this.props.hits[i]||[]).length||"";
-    return E("div",{key:idx,style:styles.item,onClick:this.props.onItemClick},this.props.items[i]);
+    var hit=(this.props.hits[i]||[]).length||"";
+    var vpos=this.props.vpos[i]||0;
+    return E("div",{key:idx,style:styles.item
+      ,"data-vpos":vpos
+      ,"data-hit":hit
+      ,onClick:this.props.onItemClick},this.props.items[i]);
   }
   ,preparesearch:function() {
     clearTimeout(this.timer);
