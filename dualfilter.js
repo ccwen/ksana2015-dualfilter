@@ -1,4 +1,4 @@
-var React=require("react/addons");
+var React=require("react");
 var ReactList=require("react-list");
 var E=React.createElement;
 var PT=React.PropTypes;
@@ -56,6 +56,8 @@ var DualFilter=React.createClass({
       E(Input,{placeholder:"regular expression",style:this.props.inputstyle,value:this.state.tofind1,onChange:this.onChange1})
       ,E("br")
       ,E(Input,{placeholder:"full text search",style:this.props.inputstyle,value:this.state.tofind2,onChange:this.onChange2})
+      ,E("br")
+      ,E("span",null,"match count:",this.props.items.length)
       ,E("br")
       ,E(ReactList,{itemRenderer:this.renderItem,length:this.props.items.length})
     )
