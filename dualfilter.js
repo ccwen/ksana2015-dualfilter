@@ -16,25 +16,33 @@ var DualFilter=React.createClass({
     }
   }
   ,getDefaultProps:function(){
-    return {items:[],hits:[],vpos:[]};
+    return {items:[]};
   }
   ,propTypes:{
     items:PT.array.isRequired
-    ,hits:PT.array
-    ,vpos:PT.array
     ,onFilter:PT.func.isRequired
     ,onItemClick:PT.func.isRequired
     ,inputstyle:PT.object
     ,inputclass:PT.oneOfType([PT.string, PT.func])
 
   }
+  ,renderHit:function(hit) {
+    return E("span",{className:"hl0"},hit);
+  }
+  ,itemClick:function(e) {
+    ele=e.target;
+    if (!(ele.dataset &&ele.dataset.idx)) ele=ele.parentElement;
+    var idx=parseInt(ele.dataset.idx);
+    this.props.onItemClick(idx);
+  }
   ,renderItem:function(i,idx){
-    var hit=(this.props.hits[i]||[]).length||"";
-    var vpos=this.props.vpos[i]||0;
+    var hit=(this.props.items[i].hits||[]).length||"";
+    var vpos=this.props.items[i].vpos||0;
     return E("div",{key:idx,style:styles.item
       ,"data-vpos":vpos
+      ,"data-idx":idx
       ,"data-hit":hit
-      ,onClick:this.props.onItemClick},this.props.items[i]);
+      ,onClick:this.itemClick},this.props.items[i].text,this.renderHit.call(this,hit));
   }
   ,preparesearch:function() {
     clearTimeout(this.timer);
